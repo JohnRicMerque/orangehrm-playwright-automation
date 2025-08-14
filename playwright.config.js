@@ -32,53 +32,55 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
+  
+  // Global setup will run, but we'll handle login tests differently
   globalSetup: require.resolve('./global-setup.js'),
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'authenticated-tests',
       use: { 
         ...devices['Desktop Chrome'],
         viewport: { width: 1536, height: 695 },
-        screenshot: "on",
-        video: "on",
-        trace: "on",
-        channel: 'chrome',       // but use your installed Google Chrome
-        headless: false,  
+        screenshot: 'on',
+        video: 'on',
+        trace: 'on',
+        channel: 'chrome',
+        // headless: false,
+        storageState: 'authState.json', // load saved login
       },
-             // optional: show the browser
-
+      testIgnore: ['**/login.spec.js',], // Exclude login-related tests
+    },
+    {
+      name: 'login-tests',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1536, height: 695 },
+        screenshot: 'on',
+        video: 'on',
+        trace: 'on',
+        channel: 'chrome',
+        // headless: false,
+        // No storageState - starts fresh without authentication
+      },
+      testMatch: ['**/login.spec.js'], // Only run login/auth tests
     },
 
+    // You can uncomment and duplicate the pattern for other browsers if needed
     // {
-    //   name: 'firefox',
+    //   name: 'firefox-authenticated',
+    //   use: { 
+    //     ...devices['Desktop Firefox'],
+    //     storageState: 'authState.json',
+    //   },
+    //   globalSetup: require.resolve('./global-setup.js'),
+    //   testIgnore: ['**/login.test.js', '**/auth.test.js'],
+    // },
+    // {
+    //   name: 'firefox-login',
     //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    //   testMatch: ['**/login.test.js', '**/auth.test.js'],
     // },
   ],
 
@@ -89,4 +91,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-

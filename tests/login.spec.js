@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 require("dotenv").config({ override: true });
-
+test.use({ storageState: undefined }); // Clear any stored auth state
 class LoginPage {
   constructor(page) {
     this.page = page;
@@ -82,7 +82,7 @@ class LoginPage {
   }
 }
 
-test.describe("Authentication Tests - OrangeHRM Login", () => {
+test.describe("Authentication Tests", () => {
   let loginPage;
 
   // Test data - moving to external JSON file for larger test suites
