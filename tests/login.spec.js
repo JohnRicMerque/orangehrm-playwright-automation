@@ -12,6 +12,8 @@ class LoginPage {
       loginButton: page.locator("button[type='submit']"),
       loginForm: page.locator("form"),
       errorMessage: page.locator(".oxd-alert-content-text"),
+      usernameError: page.locator("div:has(input[name='username']) span.oxd-input-field-error-message"),
+      passwordError: page.locator("div:has(input[name='password']) span.oxd-input-field-error-message"),
       dashboardHeading: page.locator("h6:has-text('Dashboard')"),
     };
   }
@@ -38,11 +40,6 @@ class LoginPage {
    * @param {string} password - The password to login with
    */
   async performLogin(username, password) {
-    // Input validation
-    if (!username || !password) {
-      throw new Error("Username and password are required for login");
-    }
-
     await this.locators.usernameInput.clear();
     await this.locators.usernameInput.fill(username);
     
@@ -69,11 +66,19 @@ class LoginPage {
    * Verify login failed by checking for error message
    * @param {string} expectedErrorMessage - Expected error message text
    */
-  async verifyLoginFailure(expectedErrorMessage) {
+  async verifyInvalidCredentialsError(expectedErrorMessage = "Invalid credentials") {
     await expect(this.locators.errorMessage).toBeVisible({ timeout: 5000 });
-    if (expectedErrorMessage) {
-      await expect(this.locators.errorMessage).toContainText(expectedErrorMessage);
-    }
+    await expect(this.locators.errorMessage).toContainText(expectedErrorMessage);
+  }
+  
+  async verifyUsernameRequiredError(expectedErrorMessage = "Required") {
+    await expect(this.locators.usernameError).toBeVisible({ timeout: 5000 });
+    await expect(this.locators.usernameError).toContainText(expectedErrorMessage);
+  }
+  
+  async verifyPasswordRequiredError(expectedErrorMessage = "Required") {
+    await expect(this.locators.passwordError).toBeVisible({ timeout: 5000 });
+    await expect(this.locators.passwordError).toContainText(expectedErrorMessage);
   }
 }
 
@@ -133,7 +138,7 @@ test.describe("Authentication Tests - OrangeHRM Login", () => {
       await loginPage.performLogin(username, password);
 
       // Assert
-      await loginPage.verifyLoginFailure("Invalid credentials");
+      await loginPage.verifyInvalidCredentialsError("Invalid credentials");
     });
 
     test("TC004: Should show error with empty username", async () => {
@@ -141,7 +146,7 @@ test.describe("Authentication Tests - OrangeHRM Login", () => {
       await loginPage.performLogin("", TEST_DATA.validCredentials.password);
 
       // Assert
-      await loginPage.verifyLoginFailure("Required");
+      await loginPage.verifyUsernameRequiredError("Required");
     });
 
     test("TC005: Should show error with empty password", async () => {
@@ -149,7 +154,7 @@ test.describe("Authentication Tests - OrangeHRM Login", () => {
       await loginPage.performLogin(TEST_DATA.validCredentials.username, "");
 
       // Assert
-      await loginPage.verifyLoginFailure("Required");
+      await loginPage.verifyPasswordRequiredError("Required");
     });
   });
 
