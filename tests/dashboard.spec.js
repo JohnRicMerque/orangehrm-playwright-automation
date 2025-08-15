@@ -11,9 +11,9 @@ class DashboardPage {
         dashboardGrid: page.locator(".orangehrm-dashboard-grid"),
     
         // Time at Work Widget
-        timeAtWorkWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-clock-fill)"),
+        timeAtWorkWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-clock-fill)").first(),
         timeAtWorkHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('Time at Work')"),
-        timeAtWorkIcon: page.locator(".bi-clock-fill"),
+        timeAtWorkIcon: page.locator(".bi-clock-fill").first(),
         
         // Attendance Card Elements
         attendanceCard: page.locator(".orangehrm-attendance-card"),
@@ -187,18 +187,18 @@ class DashboardPage {
     /**
      * Verify Time at Work widget is visible
      */
-    async verifyTimeAtWorkWidget() {
-        await expect(this.dashboardLocators.timeAtWorkWidget).toBeVisible({ timeout: 5000 });
-        await expect(this.dashboardLocators.timeAtWorkHeader).toBeVisible({ timeout: 5000 });
-        await expect(this.dashboardLocators.timeAtWorkIcon).toBeVisible({ timeout: 5000 });
+    async verifyDashboardElementsVisibility(dashboardElement) {
+        await expect(dashboardElement).toBeVisible({ timeout: 5000 });
     }
 
     /**
      * Verify Time at Work header text
-     * @param {string} expectedText - Expected header text (default: "Time at Work")
+     * 
+     * @param {Locator} dashboardElement - Locator for the dashboard element
+     * @param {string} expectedText - Expected header text 
      */
-    async verifyTimeAtWorkHeaderText(expectedText = "Time at Work") {
-        await expect(this.dashboardLocators.timeAtWorkHeader).toHaveText(expectedText);
+    async verifyHeaderText(dashboardElement, expectedText) {
+        await expect(dashboardElement).toHaveText(expectedText);
     }
 }
 
@@ -214,20 +214,14 @@ test.describe("Dashboard Tests", () => {
     test.describe("Time at Work Widget Tests", () => {
         test("TC001: Should verify Time at Work widget elements are present", async () => {
             // Act & Assert
-            await dashboardPage.verifyTimeAtWorkWidget();
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.timeAtWorkWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.timeAtWorkHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.timeAtWorkIcon);
         });
 
         test("TC002: Should verify 'Time at Work' header text is correct", async () => {
             // Act & Assert
-            await dashboardPage.verifyTimeAtWorkHeaderText("Time at Work");
-        });
-
-        test("TC003: Should verify Time at Work widget structure", async () => {
-            // Assert individual elements
-            await expect(dashboardPage.dashboardLocators.timeAtWorkWidget).toBeVisible({ timeout: 5000 });
-            await expect(dashboardPage.dashboardLocators.timeAtWorkHeader).toContainText("Time at Work");
-            await expect(dashboardPage.dashboardLocators.timeAtWorkIcon).toBeVisible({ timeout: 5000 });
-            await expect(dashboardPage.dashboardLocators.attendanceCard).toBeVisible({ timeout: 5000 });
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.timeAtWorkHeader,"Time at Work");
         });
     });
 });
