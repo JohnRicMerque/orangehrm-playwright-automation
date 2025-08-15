@@ -103,7 +103,7 @@ test.describe("Authentication Tests", () => {
   });
 
   test.describe("Valid Login Scenarios", () => {
-    test("TC001: Should successfully login with valid credentials", async () => {
+    test("LOGIN-TC001: Should successfully login with valid credentials", async () => {
       // Arrange - Test data is already set up in beforeEach
       const { username, password } = TEST_DATA.validCredentials;
 
@@ -114,7 +114,7 @@ test.describe("Authentication Tests", () => {
       await loginPage.verifySuccessfulLogin();
     });
 
-    test("TC002: Should login successfully after clearing previous input", async ({ page }) => {
+    test("LOGIN-TC002: Should login successfully after clearing previous input", async ({ page }) => {
       // Arrange - Fill with wrong data first
       await loginPage.locators.usernameInput.fill("wrong_data");
       await loginPage.locators.passwordInput.fill("wrong_data");
@@ -130,7 +130,7 @@ test.describe("Authentication Tests", () => {
   });
 
   test.describe("Invalid Login Scenarios", () => {
-    test("TC003: Should show error message with invalid credentials", async () => {
+    test("LOGIN-TC003: Should show error message with invalid credentials", async () => {
       // Arrange
       const { username, password } = TEST_DATA.invalidCredentials;
 
@@ -141,7 +141,7 @@ test.describe("Authentication Tests", () => {
       await loginPage.verifyInvalidCredentialsError("Invalid credentials");
     });
 
-    test("TC004: Should show error with empty username", async () => {
+    test("LOGIN-TC004: Should show error with empty username", async () => {
       // Act
       await loginPage.performLogin("", TEST_DATA.validCredentials.password);
 
@@ -149,7 +149,7 @@ test.describe("Authentication Tests", () => {
       await loginPage.verifyUsernameRequiredError("Required");
     });
 
-    test("TC005: Should show error with empty password", async () => {
+    test("LOGIN-TC005: Should show error with empty password", async () => {
       // Act
       await loginPage.performLogin(TEST_DATA.validCredentials.username, "");
 
@@ -159,7 +159,7 @@ test.describe("Authentication Tests", () => {
   });
 
   test.describe("UI Validation Tests", () => {
-    test("TC006: Should verify all login form elements are present", async ({ page }) => {
+    test("LOGIN-TC006: Should verify all login form elements are present", async ({ page }) => {
       // Assert - Verify form structure
       await expect(loginPage.locators.loginForm).toBeVisible();
       await expect(loginPage.locators.usernameInput).toHaveAttribute("placeholder", "Username");

@@ -29,9 +29,9 @@ class DashboardPage {
         attendanceChart: page.locator(".emp-attendance-chart canvas"),
     
         // My Actions Widget
-        myActionsWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-list-check)"),
+        myActionsWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-list-check)").first(),
         myActionsHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('My Actions')"),
-        myActionsIcon: page.locator(".bi-list-check"),
+        myActionsIcon: page.locator(".bi-list-check").first(),
         
         // Action Items
         pendingSelfReview: page.locator("p:has-text('Pending Self Review')"),
@@ -40,9 +40,9 @@ class DashboardPage {
         candidateInterviewButton: page.locator(".orangehrm-todo-list-item:has-text('Candidate to Interview') button"),
     
         // Quick Launch Widget
-        quickLaunchWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-lightning-charge-fill)"),
+        quickLaunchWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-lightning-charge-fill)").first(),
         quickLaunchHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('Quick Launch')"),
-        quickLaunchIcon: page.locator(".bi-lightning-charge-fill"),
+        quickLaunchIcon: page.locator(".bi-lightning-charge-fill").first(),
         quickLaunchGrid: page.locator(".orangehrm-quick-launch"),
         
         // Quick Launch Cards
@@ -71,9 +71,9 @@ class DashboardPage {
         myTimesheetText: page.locator(".orangehrm-quick-launch-heading:has-text('My Timesheet')"),
     
         // Buzz Latest Posts Widget
-        buzzWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-camera-fill)"),
+        buzzWidget: page.locator(".orangehrm-dashboard-widget:has(.bi-camera-fill)").first(),
         buzzHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('Buzz Latest Posts')"),
-        buzzIcon: page.locator(".bi-camera-fill"),
+        buzzIcon: page.locator(".bi-camera-fill").first(),
         buzzGrid: page.locator(".orangehrm-buzz-widget"),
         
         // Buzz Post Cards
@@ -91,14 +91,14 @@ class DashboardPage {
         russelHamiltonPost: page.locator(".orangehrm-buzz-widget-card:has-text('Russel  Hamilton')"),
     
         // Employees on Leave Today Widget
-        employeesOnLeaveWidget: page.locator(".orangehrm-dashboard-widget:has-text('Employees on Leave Today')"),
+        employeesOnLeaveWidget: page.locator(".orangehrm-dashboard-widget:has-text('Employees on Leave Today')").first(),
         employeesOnLeaveHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('Employees on Leave Today')"),
         employeesOnLeaveIcon: page.locator(".orangehrm-leave-card-icon"),
         noEmployeesOnLeaveMessage: page.locator("p:has-text('No Employees are on Leave Today')"),
         noContentImage: page.locator(".orangehrm-dashboard-widget-img"),
     
         // Employee Distribution by Sub Unit Widget
-        subUnitDistributionWidget: page.locator(".orangehrm-dashboard-widget:has-text('Employee Distribution by Sub Unit')"),
+        subUnitDistributionWidget: page.locator(".orangehrm-dashboard-widget:has-text('Employee Distribution by Sub Unit')").first(),
         subUnitDistributionHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('Employee Distribution by Sub Unit')"),
         subUnitPieChart: page.locator("#CME4dZtn"),
         subUnitLegend: page.locator(".oxd-chart-legend"),
@@ -111,7 +111,7 @@ class DashboardPage {
         unassignedSubUnitLegend: page.locator(".oxd-chart-legend li:has-text('Unassigned')"),
     
         // Employee Distribution by Location Widget
-        locationDistributionWidget: page.locator(".orangehrm-dashboard-widget:has-text('Employee Distribution by Location')"),
+        locationDistributionWidget: page.locator(".orangehrm-dashboard-widget:has-text('Employee Distribution by Location')").first(),
         locationDistributionHeader: page.locator(".orangehrm-dashboard-widget-name:has-text('Employee Distribution by Location')"),
         locationPieChart: page.locator("#cG3hHpvV"),
         locationLegend: page.locator(".oxd-chart-legend").last(),
@@ -212,16 +212,100 @@ test.describe("Dashboard Tests", () => {
     });
     
     test.describe("Time at Work Widget Tests", () => {
-        test("TC001: Should verify Time at Work widget elements are present", async () => {
+        test("DASHBOARD-TC001: Should verify Time at Work widget elements are present", async () => {
             // Act & Assert
             await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.timeAtWorkWidget);
             await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.timeAtWorkHeader);
             await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.timeAtWorkIcon);
         });
-
-        test("TC002: Should verify 'Time at Work' header text is correct", async () => {
+    
+        test("DASHBOARD-TC002: Should verify 'Time at Work' header text is correct", async () => {
             // Act & Assert
-            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.timeAtWorkHeader,"Time at Work");
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.timeAtWorkHeader, "Time at Work");
+        });
+    });
+    
+    test.describe("My Actions Widget Tests", () => {
+        test("DASHBOARD-TC003: Should verify My Actions widget elements are present", async () => {
+            // Act & Assert
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.myActionsWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.myActionsHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.myActionsIcon);
+        });
+    
+        test("DASHBOARD-TC004: Should verify 'My Actions' header text is correct", async () => {
+            // Act & Assert
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.myActionsHeader, "My Actions");
+        });
+    });
+    
+    test.describe("Quick Launch Widget Tests", () => {
+        test("DASHBOARD-TC005: Should verify Quick Launch widget elements are present", async () => {
+            // Act & Assert
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.quickLaunchWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.quickLaunchHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.quickLaunchIcon);
+        });
+    
+        test("DASHBOARD-TC006: Should verify 'Quick Launch' header text is correct", async () => {
+            // Act & Assert
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.quickLaunchHeader, "Quick Launch");
+        });
+    });
+    
+    test.describe("Buzz Latest Posts Widget Tests", () => {
+        test("DASHBOARD-TC007: Should verify Buzz Latest Posts widget elements are present", async () => {
+            // Act & Assert
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.buzzWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.buzzHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.buzzIcon);
+        });
+    
+        test("DASHBOARD-TC008: Should verify 'Buzz Latest Posts' header text is correct", async () => {
+            // Act & Assert
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.buzzHeader, "Buzz Latest Posts");
+        });
+    });
+    
+    test.describe("Employees on Leave Today Widget Tests", () => {
+        test("DASHBOARD-TC009: Should verify Employees on Leave Today widget elements are present", async () => {
+            // Act & Assert
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.employeesOnLeaveWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.employeesOnLeaveHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.employeesOnLeaveIcon);
+        });
+    
+        test("DASHBOARD-TC010: Should verify 'Employees on Leave Today' header text is correct", async () => {
+            // Act & Assert
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.employeesOnLeaveHeader, "Employees on Leave Today");
+        });
+    });
+    
+    test.describe("Employee Distribution by Sub Unit Widget Tests", () => {
+        test("DASHBOARD-TC011: Should verify Employee Distribution by Sub Unit widget elements are present", async () => {
+            // Act & Assert
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.subUnitDistributionWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.subUnitDistributionHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.subUnitPieChart);
+        });
+    
+        test("DASHBOARD-TC012: Should verify 'Employee Distribution by Sub Unit' header text is correct", async () => {
+            // Act & Assert
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.subUnitDistributionHeader, "Employee Distribution by Sub Unit");
+        });
+    });
+    
+    test.describe("Employee Distribution by Location Widget Tests", () => {
+        test("DASHBOARD-TC013: Should verify Employee Distribution by Location widget elements are present", async () => {
+            // Act & Assert
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.locationDistributionWidget);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.locationDistributionHeader);
+            await dashboardPage.verifyDashboardElementsVisibility(dashboardPage.dashboardLocators.locationPieChart);
+        });
+    
+        test("DASHBOARD-TC014: Should verify 'Employee Distribution by Location' header text is correct", async () => {
+            // Act & Assert
+            await dashboardPage.verifyHeaderText(dashboardPage.dashboardLocators.locationDistributionHeader, "Employee Distribution by Location");
         });
     });
 });
