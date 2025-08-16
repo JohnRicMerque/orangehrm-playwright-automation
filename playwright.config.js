@@ -47,7 +47,7 @@ export default defineConfig({
         video: 'on',
         trace: 'on',
         channel: 'chrome',
-        // headless: false,
+        headless: true,
         storageState: 'authState.json', // load saved login
       },
       testIgnore: ['**/login.spec.js',], // Exclude login-related tests
@@ -61,7 +61,7 @@ export default defineConfig({
         video: 'on',
         trace: 'on',
         channel: 'chrome',
-        // headless: false,
+        headless: true,
         // No storageState - starts fresh without authentication
       },
       testMatch: ['**/login.spec.js'], // Only run login/auth tests
