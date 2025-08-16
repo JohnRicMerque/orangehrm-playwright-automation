@@ -112,7 +112,7 @@ test.describe('Admin Page Tests', () => {
             await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.buttonContainer);
         
             // Reset button
-            await adminPage.verifyAdminPageElementsVisibility(adminPageadminLocators.resetButton);
+            await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.resetButton);
             await expect(adminPage.adminLocators.resetButton).toHaveClass(/oxd-button--ghost/);
             await expect(adminPage.adminLocators.resetButton).toHaveAttribute('type', 'button');
             
@@ -124,7 +124,7 @@ test.describe('Admin Page Tests', () => {
             
             // Verify button order
             const buttons = adminPage.adminLocators.buttonContainer.locator('button');
-            const buttonTexts = await buttons.allTextContents();
+            const buttonTexts = (await buttons.allTextContents()).map(text => text.trim());
             expect(buttonTexts).toEqual(['Reset', 'Search']);
         });
     
