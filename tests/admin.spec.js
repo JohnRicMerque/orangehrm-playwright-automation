@@ -150,7 +150,7 @@ test.describe('Admin Page Tests', () => {
             
             // Verify form area is visible again
             await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.formArea);
-            await adminPage.verifyAdminPageElementsVisibility(tadminPage.adminLocators.toggleIconUp);
+            await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.toggleIconUp);
         });
     
         test('ADMIN-TC005: Verify form layout responsiveness on different screen sizes', async ({ page }) => {
@@ -163,12 +163,14 @@ test.describe('Admin Page Tests', () => {
             
             // Test tablet view
             await adminPage.page.setViewportSize({ width: 768, height: 1024 });
+            await adminPage.adminLocators.toggleButton.click();
             await adminPage.page.waitForTimeout(300);
             await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.adminContainer);
             await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.gridContainer);
             
             // Test mobile view
             await adminPage.page.setViewportSize({ width: 375, height: 667 });
+            await adminPage.adminLocators.toggleButton.click();
             await adminPage.page.waitForTimeout(300);
             await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.adminContainer);
             await adminPage.verifyAdminPageElementsVisibility(adminPage.adminLocators.usernameLabel);
